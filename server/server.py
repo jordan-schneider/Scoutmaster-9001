@@ -1,4 +1,4 @@
-from flask import Flask, session, redirect, url_for, escape, request
+from flask import Flask, session, redirect, url_for, request, render_template
 
 import usermgr
 
@@ -30,9 +30,14 @@ def login():
         if token:
             session["token"] = token
             return redirect(url_for("index"))
+        else:
+            return redirect(url_for("login", login_failed=True))
 
-    # GET request or authentication failure
-    return open("login.html").read()
+    #GET request or authentication failure
+    login_failed = False
+    if "login_failed" in request.args:
+        login_failed = True
+    return render_template("login.html", login_failed=login_failed)
 
 # Logout page
 @app.route("/logout")
@@ -42,4 +47,4 @@ def logout():
 
 # Initialize the server
 def server_init():
-    app.run(port=9001)
+    app.run(port=9001, debug=True)

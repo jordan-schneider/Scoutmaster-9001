@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Scoutmaster 9001 login</title>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <form action="" method="post">
+                <input type="text" name="username"/><br/>
+                <input type="password" name="password"/><br/>
+                <input type="submit" value="Login"/>
+            </form>
+            {% if login_failed %}
+                <p style="color: #ff0000; background-color: #ffb9c5">Error: incorrect username or password</p>
+            {% endif %}
+        </div>
+    </body>
+</html>
