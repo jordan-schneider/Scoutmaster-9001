@@ -42,4 +42,4 @@ def logout():
 
 # Initialize the server
 def server_init():
-    app.run(debug=True, port=9001)
+    app.run(port=9001)
