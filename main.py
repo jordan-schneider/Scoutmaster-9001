@@ -1,5 +1,7 @@
 from flask import Flask, session, redirect, url_for, escape, request
 
+import usermgr
+
 app = Flask(__name__)
 
 # Root URL
@@ -21,10 +23,16 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        return "Hi %s, your password is %s" % (username, password)
-    # Getting the login page
-    elif request.method == "GET":
-        return open("login.html").read()
+        # Attempt to login
+        token = usermgr.login(username, password)
+
+        # Give them access if the password check succeeded
+        if token:
+            session["token"] = token
+            return redirect(url_for("index"))
+
+    # GET request or authentication failure
+    return open("login.html").read()
 
 # Logout page
 @app.route("/logout")
