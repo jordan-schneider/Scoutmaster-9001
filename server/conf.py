@@ -2,7 +2,7 @@
 
 import json
 
-conf = json.loads(open("conf.json", "rb"))
+conf = json.loads(open("conf.json", "r").read())
 
 
 def lookup(key):
