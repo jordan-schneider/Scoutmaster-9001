@@ -25,14 +25,11 @@ def login(username, password):
 
     # Verify the user's hash
     if password_hash == user["hash"]:
-        # Get a user-to-token dict
-        reverse_tokens = {v:k for k,v in tokens.items()}
-
         # Either return the existing token or create a new one
-        try:
+        if user in tokens.values():
             token = reverse_tokens[user]
             return token
-        except KeyError:
+        else:
             token = os.urandom(64)
             tokens[token] = user
             return token
@@ -51,7 +48,11 @@ def init():
     if users == None:
         # Create the user table
         users = database.add_table("users")
-        
+
+    # Add the admin user if it's not in there
+    """print(users.all().next())
+    if dict(users.all()) == {}:
         # Get the default admin credentials and create it as a user
         default_admin = conf.lookup("default_admin")
-        create_user(default_admin["user"], default_admin["pass"], USER_ADMIN)
+        user = {"username":default_admin["user"], "hash":default_admin["pass"], "privs":USER_ADMIN}
+        users.insert(user)"""

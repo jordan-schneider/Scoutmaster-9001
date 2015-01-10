@@ -4,6 +4,7 @@
   	"user" : "admin",
   	"pass" : "password"
   },
+  "secret_key" : "bannanas",
   "debug" : false,
   "review_format" : {
 

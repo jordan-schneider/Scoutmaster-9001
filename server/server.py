@@ -1,6 +1,6 @@
 from flask import Flask, session, redirect, url_for, request, render_template
 
-import usermgr
+import conf, usermgr
 
 app = Flask(__name__)
 
@@ -47,4 +47,5 @@ def logout():
 
 # Initialize the server
 def init():
+    app.secret_key = conf.lookup("secret_key")
     app.run(port=9000, debug=True)
