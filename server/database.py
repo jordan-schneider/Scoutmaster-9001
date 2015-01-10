@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import dataset
-import json
+import conf
 
 # Database
 db = None
@@ -8,8 +8,7 @@ db = None
 def init():
     """Initialize the database"""
     global db
-    conf = json.loads(open("db.json").read())
-    db = dataset.connect(conf["db"])
+    db = dataset.connect(conf.lookup("db"))
 
 def get_table(name):
     """Get a table from the database"""
