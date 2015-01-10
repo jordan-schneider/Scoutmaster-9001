@@ -12,7 +12,7 @@ def init():
 
 def get_table(name):
     """Get a table from the database"""
-    return db.get_table(name)
+    return db.load_table(name)
 
 def add_table(name):
     """Add a new table to the database"""
