@@ -1,5 +1,12 @@
 import os, hashlib
-import database
+import conf, database
+
+# Permission levels
+USER_STANDARD = 0
+USER_ADMIN = 1
+
+# User table in the database
+users = None
 
 # User tokens
 tokens = {}
@@ -7,7 +14,6 @@ tokens = {}
 # Attempt to authenticate a user, returning an access token
 def login(username, password):
     # Look up the user in the database
-    users = database.db_get_table("users")
     user = users.find_one(username=username)
     if not user:
         return None
@@ -32,3 +38,19 @@ def login(username, password):
             return token
     else:
         return None
+
+# Create a user
+def create_user(username, password, level):
+    pass
+
+# Initialize the user manager
+def init():
+    # Create the user table if it doesn't exist
+    users = database.get_table("users")
+    if not users:
+        # Create the user table
+        users = database.add_table("users")
+        
+        # Get the default admin credentials and create it as a user
+        default_admin = conf.lookup("default_admin")
+        create_user(default_admin["user"], default_admin["pass"], USER_ADMIN)

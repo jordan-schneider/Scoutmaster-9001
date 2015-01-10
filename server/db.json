@@ -1,4 +1,0 @@
-{
-  "db" : "sqlite:///database.db",
-  "review_format" : {}
-}

@@ -1,0 +1,11 @@
+{
+  "db" : "sqlite:///database.db",
+  "default_admin" : {
+  	"user" : "admin",
+  	"pass" : "password"
+  }
+  "debug" : false,
+  "review_format" : {
+
+  }
+}
