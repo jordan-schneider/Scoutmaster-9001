@@ -5,29 +5,29 @@ SYNERGY
 
 ## Root URL
 * /
-** GET - Redirect to /login if not logged in, or /teams if logged in
+  * GET - Redirect to /login if not logged in, or /teams if logged in
 
 ## User API
 * /login
-** GET - Login form
-** POST - User login request
+  * GET - Login form
+  * POST - User login request
 * /logout
-** GET/POST - Log out of a session
+  * GET/POST - Log out of a session
 * /user
-** GET - Get list of users
+  * GET - Get list of users
 * /user/%d
-** GET - Show user information
-** POST - Set user information
+  * GET - Show user information
+  * POST - Set user information
 
 ## Team API
 * /teams
-** GET - Get list of teams
+  * GET - Get list of teams
 * /teams/%d
-** GET - Get team data
-** POST - Post pictures and reviews
+  * GET - Get team data
+  * POST - Post pictures and reviews
 
 ## Match API
 * /matches
-** GET - Match data
-* /matches/%s/%d
-** GET - Specific match
+  * GET - Match data
+* /matches/%d/%s/%d
+  * GET - Specific match
