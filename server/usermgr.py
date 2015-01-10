@@ -11,6 +11,12 @@ users = None
 # User tokens
 tokens = {}
 
+# Hash a password with a salt
+def hash_password(password, salt):
+    sha512 = hashlib.sha512()
+    sha512.update(bytes(password+salt, "utf-8"))
+    return sha512.digest()
+
 # Attempt to authenticate a user, returning an access token
 def login(username, password):
     # Look up the user in the database
@@ -19,9 +25,7 @@ def login(username, password):
         return None
 
     # Hash the password (along with the salt)
-    sha512 = hashlib.sha512()
-    sha512.update(bytes(password+user["salt"]))
-    password_hash = sha512.digest()
+    password_hash = hash_password(password, user["salt"])
 
     # Verify the user's hash
     if password_hash == user["hash"]:
@@ -37,22 +41,29 @@ def login(username, password):
         return None
 
 # Create a user
-def create_user(username, password, level):
-    pass
+def create_user(username, password, level, auth_required=True):
+    # If authentication is required, check the user's level
+
+    # Randomly generate a salt and use it to hash the password
+    salt = str(os.urandom(32))
+    password_hash = hash_password(password, salt)
+
+    # Create the user and add it
+    user = {"username":username, "hash":password_hash, "salt":salt, "privs":level}
+    users.insert(user)
 
 # Initialize the user manager
 def init():
     # Create the user table if it doesn't exist
     global users
-    users = database.get_table("users")
-    if users == None:
+    try:
+        users = database.get_table("users")
+    except:
         # Create the user table
         users = database.add_table("users")
 
     # Add the admin user if it's not in there
-    """print(users.all().next())
-    if dict(users.all()) == {}:
+    if "username" not in users.columns:
         # Get the default admin credentials and create it as a user
         default_admin = conf.lookup("default_admin")
-        user = {"username":default_admin["user"], "hash":default_admin["pass"], "privs":USER_ADMIN}
-        users.insert(user)"""
+        create_user(default_admin["user"], default_admin["pass"], USER_ADMIN, False)

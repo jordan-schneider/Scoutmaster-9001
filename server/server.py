@@ -48,4 +48,4 @@ def logout():
 # Initialize the server
 def init():
     app.secret_key = conf.lookup("secret_key")
-    app.run(port=9000, debug=True)
+    app.run(port=8999, debug=True)
