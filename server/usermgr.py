@@ -20,7 +20,7 @@ def login(username, password):
     # Verify the user's hash
     if password_hash == user["hash"]:
         # Get a user-to-token dict
-        reverse_tokens = {v, k for k, v in tokens.items()}
+        reverse_tokens = {v:k for k,v in tokens.items()}
 
         # Either return the existing token or create a new one
         try:
