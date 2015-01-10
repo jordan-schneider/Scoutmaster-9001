@@ -3,3 +3,4 @@
 __pycache__/
 .idea/
 .eclipse/
+server/database.db

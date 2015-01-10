@@ -1,10 +1,17 @@
 #!/usr/bin/python3
-import sqlite3
 import dataset
-conn = sqlite3.connect('database.db')
-db = dataset.connect('sqlite:///database.db')
+import json
 
-# Initialize the database
+db = None
+
+
 def db_init():
-    pass
+    """Initialize the database"""
+    global db
+    conf = json.loads(open("db.json").read())
+    db = dataset.connect(conf["db"])
+
+
+def db_get_table(name):
+    return db.get_table(name)
 
