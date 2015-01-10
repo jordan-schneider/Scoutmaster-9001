@@ -15,7 +15,7 @@ tokens = {}
 def login(username, password):
     # Look up the user in the database
     user = users.find_one(username=username)
-    if not user:
+    if user == None:
         return None
 
     # Hash the password (along with the salt)
@@ -47,7 +47,7 @@ def create_user(username, password, level):
 def init():
     # Create the user table if it doesn't exist
     users = database.get_table("users")
-    if not users:
+    if users == None:
         # Create the user table
         users = database.add_table("users")
         
