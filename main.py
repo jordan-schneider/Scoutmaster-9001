@@ -22,7 +22,7 @@ def login():
         password = request.form["password"]
     # Getting the login page
     elif request.method == "GET":
-        pass
+        return "HI"
 
 # Logout page
 @app.route("/logout")
@@ -30,3 +30,5 @@ def logout():
     session.pop("token", None)
     return redirect(url_for("index"))
 
+if __name__ == "__main__":
+    app.run(debug=True, port=9001)
