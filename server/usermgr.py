@@ -46,6 +46,7 @@ def create_user(username, password, level):
 # Initialize the user manager
 def init():
     # Create the user table if it doesn't exist
+    global users
     users = database.get_table("users")
     if users == None:
         # Create the user table
