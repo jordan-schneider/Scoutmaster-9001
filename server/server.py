@@ -46,5 +46,5 @@ def logout():
     return redirect(url_for("index"))
 
 # Initialize the server
-def server_init():
+def init():
     app.run(port=9001, debug=True)
