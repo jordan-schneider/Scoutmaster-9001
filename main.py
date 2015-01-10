@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     # Already logged in
-    if "username" in session:
+    if "token" in session:
         return redirect(url_for("teams"))
     # Not logged in
     else:
@@ -17,7 +17,9 @@ def index():
 def login():
     # Sending credentials
     if request.method == "POST":
-        pass
+        # Get the username and password from the webform
+        username = request.form["username"]
+        password = request.form["password"]
     # Getting the login page
     elif request.method == "GET":
         pass
@@ -25,6 +27,6 @@ def login():
 # Logout page
 @app.route("/logout")
 def logout():
-    session.pop("username", None)
+    session.pop("token", None)
     return redirect(url_for("index"))
 
