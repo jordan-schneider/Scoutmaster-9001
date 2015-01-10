@@ -20,9 +20,11 @@ def login():
         # Get the username and password from the webform
         username = request.form["username"]
         password = request.form["password"]
+
+        return "Hi %s, your password is %s" % (username, password)
     # Getting the login page
     elif request.method == "GET":
-        return "HI"
+        return open("login.html").read()
 
 # Logout page
 @app.route("/logout")
