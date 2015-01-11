@@ -1,6 +1,6 @@
 from flask import Flask, session, redirect, url_for, request, render_template
 
-import conf, usermgr
+import conf, user_handler
 
 app = Flask(__name__)
 
@@ -24,7 +24,7 @@ def login():
         password = request.form["password"]
 
         # Attempt to login
-        token = usermgr.login(username, password)
+        token = user_handler.login(username, password)
 
         # Give them access if the password check succeeded
         if token:

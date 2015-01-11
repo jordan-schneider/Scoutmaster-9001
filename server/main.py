@@ -1,6 +1,6 @@
-import database, usermgr, server
+import database, user_handler, server
 
 if __name__ == "__main__":
     database.init()
-    usermgr.init()
+    user_handler.init()
     server.init()

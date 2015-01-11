@@ -2,16 +2,12 @@
 
 import json
 
-conf = json.loads(open("conf.json", "r").read())
-
+conf = json.loads(open("scoutmaster.conf", "r").read())
 
 def lookup(key):
-	'''Returns constants from conf.json in python dict format'''
-
-	# try looking things up by first level keys
+	"""Returns constants from conf.json in python dict format"""
 	try:
 		return conf[key]
-	# if no key
 	except KeyError as e:
 		print("[!]KeyError: %s" % key)
 

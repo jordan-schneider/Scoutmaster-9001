@@ -11,11 +11,13 @@ users = None
 # User tokens
 tokens = {}
 
+
 # Hash a password with a salt
 def hash_password(password, salt):
     sha512 = hashlib.sha512()
     sha512.update(bytes(password+salt, "utf-8"))
     return sha512.digest()
+
 
 # Attempt to authenticate a user, returning an access token
 def login(username, password):
@@ -40,6 +42,7 @@ def login(username, password):
     else:
         return None
 
+
 # Create a user
 def create_user(username, password, level, auth_required=True):
     # If authentication is required, check the user's level
@@ -51,6 +54,7 @@ def create_user(username, password, level, auth_required=True):
     # Create the user and add it
     user = {"username":username, "hash":password_hash, "salt":salt, "privs":level}
     users.insert(user)
+
 
 # Initialize the user manager
 def init():
