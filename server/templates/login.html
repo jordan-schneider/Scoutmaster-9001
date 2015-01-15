@@ -1,16 +1,34 @@
 <html>
     <head>
-        <title>Scoutmaster 9001 login</title>
+        <title>Scoutmaster 9001</title>
+	    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.6.0/semantic.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.6.0/semantic.js"></script>
+	    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+
     </head>
     <body>
         <div style="text-align: center;">
+            {% if not login_failed %}
+                <div class="ui info message">
+                    Please login to continue
+                </div>
+            {% endif %}
             <form action="" method="post">
-                <input type="text" name="username"/><br/>
-                <input type="password" name="password"/><br/>
-                <input type="submit" value="Login"/>
+	            <br>
+                <div class="ui input">
+	                <input type="text" name="username" placeholder="Username">
+                </div>
+	            <br>
+                <div style="height: .5em;"></div>
+                <div class="ui input">
+	                <input type="password" name="password" placeholder="Password">
+                </div>
+	            <br>
+	            <div style="height: 1em;"></div>
+	            <input type="submit" value="Login" class="ui teal button" />
             </form>
             {% if login_failed %}
-                <p style="color: #ff0000; background-color: #ffb9c5">Error: incorrect username or password</p>
+                <div class="ui error message">Error: incorrect username or password</div>
             {% endif %}
         </div>
     </body>
