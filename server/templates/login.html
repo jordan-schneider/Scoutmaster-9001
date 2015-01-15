@@ -7,28 +7,24 @@
 
     </head>
     <body>
-        <div style="text-align: center;">
-            {% if not login_failed %}
-                <div class="ui info message">
-                    Please login to continue
-                </div>
-            {% endif %}
+        {% include "menu.html" %}
+        <div style="margin: auto; width: 50%; text-align: center;">
             <form action="" method="post">
-	            <br>
+                <br>
                 <div class="ui input">
-	                <input type="text" name="username" placeholder="Username">
+                    <input type="text" name="username" placeholder="Username">
                 </div>
-	            <br>
+                <br>
                 <div style="height: .5em;"></div>
                 <div class="ui input">
-	                <input type="password" name="password" placeholder="Password">
+                    <input type="password" name="password" placeholder="Password">
                 </div>
-	            <br>
-	            <div style="height: 1em;"></div>
-	            <input type="submit" value="Login" class="ui teal button" />
+                <br>
+                <div style="height: 1em;"></div>
+                <input type="submit" value="Login" class="ui teal button" />
             </form>
             {% if login_failed %}
-                <div class="ui error message">Error: incorrect username or password</div>
+                <div class="ui error message" style="width: 50vw;">Error: incorrect username or password</div>
             {% endif %}
         </div>
     </body>

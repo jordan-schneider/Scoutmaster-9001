@@ -59,6 +59,11 @@ def logout():
     session.pop("token", None)
     return redirect(url_for("index"))
 
+@app.route("/teams")
+def teams():
+    return render_template("teams.html")
+
+
 # Initialize the server
 def init():
     app.secret_key = conf.lookup("secret_key")
