@@ -51,7 +51,7 @@ def user_page(uid):
         pass
     # Changing user information
     elif request.method == "POST":
-        status = edit_user(uid, 
+        pass
 
 # Logout page
 @app.route("/logout")
