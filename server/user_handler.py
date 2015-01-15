@@ -56,45 +56,6 @@ def create_user(username, password, level, auth_required=True):
     users.insert(user)
 
 
-# Get a user's information
-def get_user(uid):
-    # Look up the user in the database
-    rows = users.all()
-    user = rows.next()
-    while uid > 0 and user != None:
-        user = rows.next()
-        uid -= 1
-
-    # Return it
-    if user == None:
-        return server.HTTP_NOT_FOUND
-    return user
-
-
-# Edit a user's information
-def edit_user(uid, new_password, new_level, auth_required=True):
-    # Look up the user in the database
-    rows = users.all()
-    user = rows.next()
-    while uid > 0 and user != None:
-        user = rows.next()
-        uid -= 1
-
-    # If the user isn't found, fail the request
-    if user == None:
-        return server.HTTP_NOT_FOUND
-
-    # If authentication is required, check the user's level
-
-    # Change the password if desired
-    if password != None:
-        user["hash"] = hash_password(new_password, user["salt"])
-
-    # Change the authentication level if desired
-    if new_level != None:
-        user["level"] = new_level
-
-
 # Initialize the user manager
 def init():
     # Create the user table if it doesn't exist
