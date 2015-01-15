@@ -4,6 +4,10 @@ import conf, user_handler
 
 app = Flask(__name__)
 
+# Handler statuses
+HTTP_OK = 200
+HTTP_NOT_FOUND = 404
+
 # Root URL
 @app.route("/")
 def index():
@@ -33,11 +37,21 @@ def login():
         else:
             return redirect(url_for("login", login_failed=True))
 
-    #GET request or authentication failure
+    # GET request or authentication failure
     login_failed = False
     if "login_failed" in request.args:
         login_failed = True
     return render_template("login.html", login_failed=login_failed)
+
+# Specific user page
+@app.route("/user/<int:uid>")
+def user_page(uid):
+    # Getting user information
+    if request.method == "GET":
+        pass
+    # Changing user information
+    elif request.method == "POST":
+        status = edit_user(uid, 
 
 # Logout page
 @app.route("/logout")
@@ -48,4 +62,4 @@ def logout():
 # Initialize the server
 def init():
     app.secret_key = conf.lookup("secret_key")
-    app.run(port=8999, debug=True)
+    app.run(port=9001, debug=True)
