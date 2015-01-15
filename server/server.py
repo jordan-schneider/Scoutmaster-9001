@@ -8,6 +8,16 @@ app = Flask(__name__)
 HTTP_OK = 200
 HTTP_NOT_FOUND = 404
 
+
+def login_required(f):
+    def inner(*args):
+        if "token" in session:
+            return f(*args)
+        else:
+            return redirect(url_for("login", error="Login required"))
+    return inner
+
+
 # Root URL
 @app.route("/")
 def index():
@@ -35,13 +45,11 @@ def login():
             session["token"] = token
             return redirect(url_for("index"))
         else:
-            return redirect(url_for("login", login_failed=True))
+            return redirect(url_for("login", error="Incorrect username or password"))
 
     # GET request or authentication failure
-    login_failed = False
-    if "login_failed" in request.args:
-        login_failed = True
-    return render_template("login.html", login_failed=login_failed)
+    error = request.args.get("error", "")
+    return render_template("login.html", error=error)
 
 # Specific user page
 @app.route("/user/<int:uid>")
@@ -60,8 +68,11 @@ def logout():
     return redirect(url_for("index"))
 
 @app.route("/teams")
+@login_required
 def teams():
-    return render_template("teams.html")
+    if "token" in session:
+        return render_template("teams.html")
+
 
 
 # Initialize the server

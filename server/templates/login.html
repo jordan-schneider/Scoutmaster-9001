@@ -23,8 +23,8 @@
                 <div style="height: 1em;"></div>
                 <input type="submit" value="Login" class="ui teal button" />
             </form>
-            {% if login_failed %}
-                <div class="ui error message" style="width: 50vw;">Error: incorrect username or password</div>
+            {% if error %}
+                <div class="ui error message" style="width: 50vw;">{{ error }}</div>
             {% endif %}
         </div>
     </body>
