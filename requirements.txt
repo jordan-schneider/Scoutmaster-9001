@@ -3,3 +3,4 @@ dataset
 jinja2
 requests
 beautifulsoup4
+urllib3
