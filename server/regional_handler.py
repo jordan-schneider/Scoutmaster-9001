@@ -8,7 +8,7 @@ import conf
 
 def create_team_list():
 	"""Fills a table with the list of teams at the respective regional"""
-
+	
 
 def get_team_list():
 	"""Returns a list of teams at a regional"""
