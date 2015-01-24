@@ -11,7 +11,7 @@ events = None
 
 
 def get_match_list(event):
-    pass
+    return database.get_table(event).all()
 
 
 def get_match(event,qual,number):
