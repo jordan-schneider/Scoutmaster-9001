@@ -36,3 +36,23 @@ def scrape(key, url):
 def get_events(year):
 	response = requests.get(DEFAULT_EVENT%year, headers=REQUEST_HEADERS)
 	return json.loads(response.text)
+
+
+def get_matches(event):
+	response = requests.get(MATCHES_BY_EVENT%event, headers=REQUEST_HEADERS)
+	return json.loads(response.text)
+
+
+def get_rankings(event):
+	response = requests.get(RANKING_BY_EVENT%event, headers=REQUEST_HEADERS)
+	return json.loads(response.text)
+
+
+def get_teams(event):
+	response = requests.get(DEFAULT_TEAMS_BY_EVENT%event, headers=REQUEST_HEADERS)
+	return json.loads(response.text)
+
+
+
+
+
