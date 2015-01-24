@@ -29,5 +29,5 @@ SYNERGY
 ## Match API
 * /matches
   * GET - Match data
-* /matches/%d/%s/%s/%d
+* /matches/%s/%s/%d
   * GET - Specific match
