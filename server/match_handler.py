@@ -54,6 +54,7 @@ def init():
 
         # Get a list of events from the Blue Alliance API and add it
         scraped_events = scraper.get_events(year)
+        print(scraped_events)
         for event in scraped_events:
             events.insert(event)
 
