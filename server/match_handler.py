@@ -10,24 +10,34 @@ year = datetime.date.today().year
 events = None
 
 
-def get_match_list():
+def get_match_list(event):
+    return database.get_table(event).all()
+
+
+def get_match(event,qual,number):
+    # Match ID
+    match_id = event + "_"
     
+    # Convert the qualification into a BlueAlliance value
+    if qual == "final":
+        match_id += "f1"
+    elif qual[:6] == "sfinal":
+        match_id += "sf" + qual[6:]
+    elif qual[:6] == "qfinal":
+        match_id += "qf" + qual[6:]
+    elif qual == "qual":
+        match_id += "qm"
 
-def get_match(number):
+    # Add the match number
+    match_id += 'm' + str(number)
+
+    # Look up and return the match
+    matches = database.get_table(event)
+    return matches.find_one(key=match_id)
 
 
-def add_match():
-
-
-def remove_match():
-
-
-def edit_match():
-
-
-
-# Initialize the event handler
 def init():
+    """Initialize the event handler"""
     # Create the event table if it doesn't exist
     global events
     try:
@@ -43,5 +53,19 @@ def init():
             pass
 
         # Get a list of events from the Blue Alliance API and add it
-        eventes.insert(scraper.get_events(year))
+        scraped_events = scraper.get_events(year)
+        print(scraped_events)
+        for event in scraped_events:
+            events.insert(event)
 
+    # Add the matches for each event
+    for event in events.all():
+        # Create the matches table if it doesn't exist
+        try:
+            matches = database.get_table(event[key])
+        except:
+            # Create the match table
+            matches = database.add_table(event[key])
+
+            # Get a list of matches from the Blue Alliance API and add it
+            matches.insert(scraper.get_matches(event))
