@@ -1,13 +1,17 @@
-#!/usr/bin/python3
-
-import database as db
-import conf
+import datetime
+import conf, database, scraper
 
 
+# Current year
+year = datetime.date.today().year
+
+
+# Event list table in the database
+events = None
 
 
 def get_match_list():
-	
+    
 
 def get_match(number):
 
@@ -22,15 +26,22 @@ def edit_match():
 
 
 
-
-
+# Initialize the event handler
 def init():
-	"""Initializes the regional handler"""
-	global regional
-
-	# Set global 
-	try:
-        regional = db.get_table("regionals")
+    # Create the event table if it doesn't exist
+    global events
+    try:
+        events = database.get_table("events")
     except:
-        # Create the user table
-        regional = database.add_table("regionals")
+        # Create the event table
+        events = database.add_table("events")
+
+        # Override the current year if it's in the configuration file
+        try:
+            year = conf.lookup("year")
+        except:
+            pass
+
+        # Get a list of events from the Blue Alliance API and add it
+        eventes.insert(scraper.get_events(year))
+
