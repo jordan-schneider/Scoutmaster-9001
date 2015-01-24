@@ -61,13 +61,13 @@ def init():
     # Create the user table if it doesn't exist
     global users
     try:
-        users = database.get_table("users")
+        users = database.get_collection("users")
     except:
         # Create the user table
-        users = database.add_table("users")
+        users = database.add_collection("users")
 
     # Add the admin user if it's not in there
-    if "username" not in users.columns:
+    default_admin = conf.lookup("default_admin")
+    if users.find_one({"username" : default_admin["user"]}) == None: #EDIT
         # Get the default admin credentials and create it as a user
-        default_admin = conf.lookup("default_admin")
         create_user(default_admin["user"], default_admin["pass"], USER_ADMIN, False)
