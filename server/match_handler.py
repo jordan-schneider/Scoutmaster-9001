@@ -1,5 +1,6 @@
 import datetime
 import conf, database, scraper
+import pymongo.cursor
 
 
 # Current year
@@ -14,7 +15,7 @@ def get_match_list(event):
     return database.get_table(event).all()
 
 
-def get_match(event,qual,number):
+def get_match(event, qual, number):
     # Match ID
     match_id = event + "_"
     
@@ -41,16 +42,13 @@ def init():
     # Create the event table if it doesn't exist
     global events
     try:
-        events = database.get_table("events")
+        events = database.get_collection("events")
     except:
         # Create the event table
-        events = database.add_table("events")
+        events = database.add_collection("events")
 
         # Override the current year if it's in the configuration file
-        try:
-            year = conf.lookup("year")
-        except:
-            pass
+        year = conf.lookup("year", year)
 
         # Get a list of events from the Blue Alliance API and add it
         scraped_events = scraper.get_events(year)
@@ -59,13 +57,13 @@ def init():
             events.insert(event)
 
     # Add the matches for each event
-    for event in events.all():
+    for event in pymongo.cursor.Cursor(events):
         # Create the matches table if it doesn't exist
         try:
-            matches = database.get_table(event[key])
+            matches = database.get_collection(event[key])
         except:
             # Create the match table
-            matches = database.add_table(event[key])
+            matches = database.add_collection(event[key])
 
             # Get a list of matches from the Blue Alliance API and add it
             matches.insert(scraper.get_matches(event))
