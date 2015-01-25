@@ -5,22 +5,23 @@
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.6.0/semantic.js"></script>
 	    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
     </head>
-    <body>
-        {% include "menu.html" %}
-        <div style="margin: auto; width: 50%; text-align: center;">
+    <body style="text-align: center; vertical-align: middle; margin-top: 10%;">
+        <h1 style="font-size: 4em;">Scoutmaster 9001</h1>
+        <div style="width: 50%; height: 0.3em; background-color: rgba(0, 0, 0, 0.8); margin: auto;"></div>
+        <div style="margin: auto; margin-top: 2.3em; width: 50%;">
             <form action="" method="post">
-                <br>
-                <div class="ui input">
+                <div class="ui input" style="width: 20em;">
                     <input type="text" name="username" placeholder="Username">
                 </div>
-                <br>
                 <div style="height: 0.5em;"></div>
-                <div class="ui input">
+                <div class="ui input" style="width: 20em;">
                     <input type="password" name="password" placeholder="Password">
                 </div>
-                <br>
-                <div style="height: 1em;"></div>
-                <input type="submit" value="Login" class="ui teal button"/>
+                <div style="height: 2em;"></div>
+                <div style="width: 20em; margin: auto; text-align: center;">
+                    <input type="submit" class="ui teal button" value="Login"/>
+                    <input type="button" class="ui blue button" value="Sign Up" onClick="alert(1);"/>
+                </div>
             </form>
             {% if error %}
                 <div class="ui error message" style="width: 50vw;">{{ error }}</div>
