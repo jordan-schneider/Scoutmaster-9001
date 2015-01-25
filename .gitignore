@@ -6,3 +6,4 @@ __pycache__/
 server/database.db
 data
 server/scoutmaster.conf
+*~

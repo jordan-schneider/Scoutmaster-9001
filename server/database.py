@@ -4,8 +4,6 @@ import conf
 
 # Mongo client
 client = None
-# Default dabatase name (because adding it everywhere would be annoying
-db_name = conf.lookup("db_name", "scoutmaster")
 
 
 class DatabaseNotFoundException(Exception):
@@ -32,19 +30,19 @@ def add_database(name):
     return client[name]
 
 
-def get_collection(name, db=db_name):
+def get_collection(db, name):
     """Get a table from the database"""
     if name in client[db].collection_names():
         return client[db][name]
     raise CollectionNotFoundException
 
 
-def add_collection(name, db=db_name):
+def add_collection(db, name):
     """Add a new table to the database"""
     return client[db][name]
 
 
-def get_document(collection, key, db=db_name):
+def get_document(db, collection, key):
     """Get a document from the collection"""
     result = client[db][collection].find_one(key)
     if result is not None:
@@ -52,9 +50,12 @@ def get_document(collection, key, db=db_name):
     raise DocumentNotFoundException
 
 
-def add_document(collection, item, db=db_name):
-    """Add a document to the collection"""
 # Make sure that the item being added to the collection matches the schema of the collection
+def add_document(db, collection, item):
+    """Add a document to the collection"""
+    target = client[db][collection]
+    posts = target.posts
+    return posts.insert(item)
 
 
 def init():
