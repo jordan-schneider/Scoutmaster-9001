@@ -5,3 +5,4 @@ __pycache__/
 .eclipse/
 server/database.db
 data
+server/scoutmaster.conf

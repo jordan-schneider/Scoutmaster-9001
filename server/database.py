@@ -7,6 +7,7 @@ client = None
 # Default dabatase name (because adding it everywhere would be annoying
 db_name = conf.lookup("db_name", "scoutmaster")
 
+
 class DatabaseNotFoundException(Exception):
     pass
 
@@ -54,9 +55,6 @@ def get_document(collection, key, db=db_name):
 def add_document(collection, item, db=db_name):
     """Add a document to the collection"""
 # Make sure that the item being added to the collection matches the schema of the collection
-
-
-
 
 
 def init():
