@@ -1,6 +1,0 @@
-*.pyc
-*.pyo
-__pycache__/
-.idea/
-.eclipse/
-server/database.db
