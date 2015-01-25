@@ -27,32 +27,27 @@ RANKING_BY_EVENT = "http://www.thebluealliance.com/api/v2/event/%s/rankings"
 # Scraper function
 def scrape(key, url):
 	response = requests.get(url%key, headers=REQUEST_HEADERS)
-	json_data = json.loads(response.text)
-	# with open("output.json", "w") as f:
-	# 	f.write(json.dumps(json_data))
-	return json_data
+	return response.json()
 
 
 def get_events(year):
-	response = requests.get(DEFAULT_EVENT%year, headers=REQUEST_HEADERS)
-	return json.loads(response.text)
+	return scrape(year, DEFAULT_EVENT)
 
 
 def get_matches(event):
-	response = requests.get(MATCHES_BY_EVENT%event, headers=REQUEST_HEADERS)
-	return json.loads(response.text)
+	return scrape(event, MATCHES_BY_EVENT)
 
 
 def get_rankings(event):
-	response = requests.get(RANKING_BY_EVENT%event, headers=REQUEST_HEADERS)
-	return json.loads(response.text)
+	return scrape(event, RANKING_BY_EVENT)
 
 
 def get_teams(event):
-	response = requests.get(DEFAULT_TEAMS_BY_EVENT%event, headers=REQUEST_HEADERS)
-	return json.loads(response.text)
+	return scrape(event, DEFAULT_TEAMS_BY_EVENT)
 
 
+def get_matches_by_team(team, event):
+	return scrape((team, event), EVENT_MATCHES_BY_TEAM)
 
 
 
