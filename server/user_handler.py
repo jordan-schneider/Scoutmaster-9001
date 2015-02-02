@@ -1,12 +1,13 @@
-import os, hashlib
-import conf, database, server
+import os, hashlib, conf, database, server
+import database as db
 
 # Permission levels
 USER_STANDARD = 0
 USER_ADMIN = 1
 
-# User table in the database
+# name of (users) collection and (user_db) database
 users = None
+user_db = None
 
 # User tokens
 tokens = {}
@@ -22,8 +23,9 @@ def hash_password(password, salt):
 # Attempt to authenticate a user, returning an access token
 def login(username, password):
     # Look up the user in the database
-    user = users.find_one(username=username)
-    if user == None:
+    try:
+        user = db.get_document(user_db, users, key={"username" : username})
+    except db.DocumentNotFoundException:
         return None
 
     # Hash the password (along with the salt)
@@ -53,21 +55,31 @@ def create_user(username, password, level, auth_required=True):
 
     # Create the user and add it
     user = {"username":username, "hash":password_hash, "salt":salt, "privs":level}
-    users.insert(user)
+    db.add_document(user_db, users, user)
 
 
 # Initialize the user manager
 def init():
     # Create the user table if it doesn't exist
     global users
-    try:
-        users = database.get_collection("users")
-    except database.CollectionNotFoundException:
-        # Create the user table
-        users = database.add_collection("users")
+    global user_db
 
-    # Add the admin user if it's not in there
-    default_admin = conf.lookup("default_admin")
-    if users.find_one({"username" : default_admin["user"]}) is None: #EDIT
-        # Get the default admin credentials and create it as a user
+    try:
+        user_db = db.get_database("users").name
+        users = db.get_collection("users").name
+    except db.DatabaseNotFoundException:
+        # Create the database and the collection
+        user_db = db.add_database("user").name
+        users = db.add_collection("user", "users").name
+
+    except db.CollectionNotFoundException:
+        # Create the user table
+        users = db.add_collection("user", "users").name
+
+    try:
+        # Check if the admin user is there
+        default_admin = conf.lookup("default_admin")
+        db.get_document(user_db, users, key={"username" : default_admin["user"]})
+    except db.DocumentNotFoundException:
+        # Create the admin if not there
         create_user(default_admin["user"], default_admin["pass"], USER_ADMIN, False)

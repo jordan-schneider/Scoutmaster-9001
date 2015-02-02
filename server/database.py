@@ -42,7 +42,7 @@ def add_collection(db, name):
     return client[db][name]
 
 
-def get_document(db, collection, key):
+def get_document(db, collection, key={}):
     """Get a document from the collection"""
     result = client[db][collection].find_one(key)
     if result is not None:
