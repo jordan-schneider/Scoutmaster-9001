@@ -1,7 +1,6 @@
 import database as db
 import conf
 import scraper
-import pymongo.cursor
 
 
 # Current year
@@ -39,12 +38,11 @@ def get_match(event, qual, number):
 
 
 def refresh_events(year=current_year):
-    """Refreshes all the events in that year."""
+    """Refreshes all the events in that year. This function will always force an update"""
 
     print("Refreshing events database!")
 
-    # Grab and iterate through all events
-    event_list = scraper.get_events(year)
+    event_list = scraper.get_events(year, force=True)
     for event in event_list:
         
         # Delete the alliances information in event json and add to collection
@@ -52,7 +50,8 @@ def refresh_events(year=current_year):
         db.add_document(events, events_collection, event)
 
 
-def refresh_matches(events=[], year=current_year, force=False):
+
+def refresh_matches(force, events=[], year=current_year):
     """Refreshes all the matches in given by the events field."""
 
     print("Refreshing matches database!")

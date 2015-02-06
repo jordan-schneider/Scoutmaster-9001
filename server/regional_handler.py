@@ -3,16 +3,32 @@
 import database as db
 import conf
 
+current_year = conf.lookup("year")
 
 
+def add_team_review(team, event, review):
 
-def create_team_list():
-	"""Fills a table with the list of teams at the respective regional"""
+
+def add_team_picture(team, event, picture):
+
+
+def get_all_teams(event): 
+
+
+def get_team(team, event=None):
+
+
+def get_team_reviews(team, event=None):
+
+
+def get_team_pictures(team, event=None):
+
+
+def get_team_statistics(team, event=None):
+
+
+def refresh_teams(events=[], year=current_year, force=False):
 	
-
-def get_team_list():
-	"""Returns a list of teams at a regional"""
-
 
 
 def init():

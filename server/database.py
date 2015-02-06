@@ -18,6 +18,10 @@ class DocumentNotFoundException(Exception):
     pass
 
 
+class InvalidUpsertFieldException(Exception):
+    pass
+
+
 def get_database(name):
     """Get a database from mongodb"""
     if name in client.database_names():
@@ -44,18 +48,28 @@ def add_collection(db, name):
 
 def get_document(db, collection, key={}):
     """Get a document from the collection"""
-    result = client[db][collection].find_one(key)
-    if result is not None:
+    result = [posts for posts in client[db][collection].find(key)]
+    if result != []:
         return result
     raise DocumentNotFoundException
 
 
 # Make sure that the item being added to the collection matches the schema of the collection
-def add_document(db, collection, item):
+def add_document(db, collection, upsert_field, item):
     """Add a document to the collection"""
     target = client[db][collection]
     posts = target.posts
-    return posts.insert(item)
+
+    try:
+
+        # Make sure to upsert based on a field that will be maintained in both document version
+        upsert_key = {upsert_field : item[upsert_field]}
+        return posts.update(upsert_key, item, upsert=True)
+
+    except KeyError:
+
+        # If there is a keyerror when trying to create the upsert field
+        raise InvalidUpsertFieldException
 
 
 def init():

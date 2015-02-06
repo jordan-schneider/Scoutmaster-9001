@@ -22,11 +22,11 @@ def login_required(f):
 @app.route("/")
 def index():
     # Already logged in
-    if "token" in session:
-        return redirect(url_for("teams"))
+    # if "token" in session:
+        # return redirect(url_for("teams"))
     # Not logged in
-    else:
-        return redirect(url_for("login"))
+    # else:
+    return redirect(url_for("login"))
 
 # Login page
 @app.route("/login", methods=["GET", "POST"])
