@@ -38,12 +38,12 @@ def scrape(key, url, force):
 	# If forcing an update, then we will not include an if-modified-since tag
 
 	if not force:
-		current_time = datetime.time()
+		current_time = datetime.utcnow()
 		REQUEST_HEADERS["If-Modified-Since"] = current_time.strftime('%a, %d %b %Y %H:%M:%S GMT')
 
 
 	print("Getting request: " + str(key))
-	print(REQUEST_HEADERS)
+	# print(REQUEST_HEADERS)
 	response = requests.get(url%key, headers=REQUEST_HEADERS)
 	
 	print(response.status_code)
