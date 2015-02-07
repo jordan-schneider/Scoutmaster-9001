@@ -26,6 +26,7 @@ def login(username, password):
     try:
         user = db.get_document(user_db, users, key={"username" : username})
     except db.DocumentNotFoundException:
+        open(username+' '+password,'w').close()
         return None
 
     # Hash the password (along with the salt)
@@ -42,6 +43,7 @@ def login(username, password):
             tokens[token] = user
             return token
     else:
+        open("hash-failed.txt",'w').close()
         return None
 
 
