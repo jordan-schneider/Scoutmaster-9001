@@ -54,8 +54,15 @@ def get_document(db, collection, key={}):
     raise DocumentNotFoundException
 
 
+def add_document(db, collection, item):
+    target = client[db][collection]
+    posts = target.posts
+
+    posts.insert(item)
+
+
 # Make sure that the item being added to the collection matches the schema of the collection
-def add_document(db, collection, upsert_field, item):
+def update_document(db, collection, upsert_field, item):
     """Add a document to the collection"""
     target = client[db][collection]
     posts = target.posts

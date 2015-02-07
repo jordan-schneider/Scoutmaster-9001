@@ -47,7 +47,7 @@ def refresh_events(year=current_year):
         
         # Delete the alliances information in event json and add to collection
         del(event["alliances"])
-        db.add_document(events, events_collection, event)
+        db.add_document(events, events_collection, "key", event)
 
 
 
