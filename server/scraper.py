@@ -36,13 +36,18 @@ def scrape(key, url, force):
 	"""Scrapes information from the Blue Alliance API"""
 
 	# If forcing an update, then we will not include an if-modified-since tag
+
 	if not force:
-		current_time = datetime.utcnow()
+		current_time = datetime.time()
 		REQUEST_HEADERS["If-Modified-Since"] = current_time.strftime('%a, %d %b %Y %H:%M:%S GMT')
 
+
 	print("Getting request: " + str(key))
+	print(REQUEST_HEADERS)
 	response = requests.get(url%key, headers=REQUEST_HEADERS)
 	
+	print(response.status_code)
+
 	# If not modified since, then it returns a 304
 	if response.status_code == 304:
 		raise UpdateNotFoundException

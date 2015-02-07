@@ -36,8 +36,11 @@ def add_database(name):
 
 def get_collection(db, name):
     """Get a table from the database"""
-    if name in client[db].collection_names():
+    if name in client[db].collection_names(include_system_collections=False):
         return client[db][name]
+    print("\tSearching: " + name)
+    print("\tAll Collections: ")
+    print(client[db].collection_names(include_system_collections=False))
     raise CollectionNotFoundException
 
 
@@ -56,22 +59,19 @@ def get_document(db, collection, key={}):
 
 def add_document(db, collection, item):
     target = client[db][collection]
-    posts = target.posts
-
-    posts.insert(item)
+    target.insert(item)
 
 
 # Make sure that the item being added to the collection matches the schema of the collection
 def update_document(db, collection, upsert_field, item):
     """Add a document to the collection"""
     target = client[db][collection]
-    posts = target.posts
 
     try:
 
         # Make sure to upsert based on a field that will be maintained in both document version
         upsert_key = {upsert_field : item[upsert_field]}
-        return posts.update(upsert_key, item, upsert=True)
+        return target.update(upsert_key, item, upsert=True)
 
     except KeyError:
 

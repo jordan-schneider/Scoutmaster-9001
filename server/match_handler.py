@@ -72,16 +72,21 @@ def refresh_matches(force, events=[], year=current_year):
         try:
 
             # Check if the collection 
+            print("\nFind the collection: " + event_key)
+
             event_collection = db.get_collection(matches, event_key).name
         
         except db.CollectionNotFoundException:
             
+
+            print("Collection Not found creating new one!")
+
             # Add the collection and force all events to be refreshed
             event_collection = db.add_collection(matches, event_key).name
-            force = True
 
         try:
             match_list = scraper.get_matches(event_key, force=force)
+            print("Adding matches!")
             for match in match_list:
                 db.update_document(matches, event_collection, "key", match)
 
@@ -123,4 +128,4 @@ def init():
     finally:
 
         # Refresh information on all events in the database
-        refresh_matches(True)
+        refresh_matches(False)
