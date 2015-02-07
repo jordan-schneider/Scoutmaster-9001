@@ -38,9 +38,9 @@ def get_collection(db, name):
     """Get a table from the database"""
     if name in client[db].collection_names(include_system_collections=False):
         return client[db][name]
-    print("\tSearching: " + name)
-    print("\tAll Collections: ")
-    print(client[db].collection_names(include_system_collections=False))
+    # print("\tSearching: " + name)
+    # print("\tAll Collections: ")
+    # print(client[db].collection_names(include_system_collections=False))
     raise CollectionNotFoundException
 
 
