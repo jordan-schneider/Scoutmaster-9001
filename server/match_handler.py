@@ -47,7 +47,7 @@ def refresh_events(year=current_year):
         
         # Delete the alliances information in event json and add to collection
         del(event["alliances"])
-        db.add_document(events, events_collection, "key", event)
+        db.update_document(events, events_collection, "key", event)
 
 
 
@@ -60,7 +60,7 @@ def refresh_matches(force, events=[], year=current_year):
     if events == []:
 
         # Get the list of events
-        scraped_information = scraper.get_events(year)
+        scraped_information = scraper.get_events(year, force=True)
         
         # For all events append the event key to the list to be processed
         for event in scraped_information:
@@ -80,13 +80,13 @@ def refresh_matches(force, events=[], year=current_year):
             event_collection = db.add_collection(matches, event_key).name
             force = True
 
-        finally:
-            
-            # If force add the documents to the appropriate event 
-            if force:
-                match_list = scraper.get_matches(event_key)
-                for match in match_list:
-                    db.add_document(matches, event_collection, match)
+        try:
+            match_list = scraper.get_matches(event_key, force=force)
+            for match in match_list:
+                db.update_document(matches, event_collection, "key", match)
+
+        except scraper.UpdateNotFoundException:
+            print("No update found!")
 
 
 def init():
@@ -123,4 +123,4 @@ def init():
     finally:
 
         # Refresh information on all events in the database
-        refresh_matches()
+        refresh_matches(True)

@@ -12,7 +12,7 @@ import requests
 # Constants
 DESCRIPTION = "Retrieves data from the Blue Alliance API and stores it in the Scoutmaster 9001 database."
 EPILOG = "(c) 2015 Noah Kim, Antares Chen; Team 449"
-REQUEST_HEADERS = {"X-TBA-App-Id": "frc449:scoutmaster:v02", "If-Modified-Since": "Wed, 4 Feb 2015 12:00:00 GMT"}
+REQUEST_HEADERS = {"X-TBA-App-Id": "frc449:scoutmaster:v02"}
 
 DEFAULT_TEAM = "http://www.thebluealliance.com/api/v2/team/frc%s"
 EVENT_MATCHES_BY_TEAM = "http://www.thebluealliance.com/api/v2/team/%s/event/%s/matches"
