@@ -35,13 +35,12 @@ def login(username, password):
     # Verify the user's hash
     if password_hash == user["hash"]:
         # Either return the existing token or create a new one
-        if user in tokens.values():
-            token = reverse_tokens[user]
-            return token
-        else:
-            token = os.urandom(64)
-            tokens[token] = user
-            return token
+        for token, usr in tokens:
+            if usr == user:
+                return token
+        token = os.urandom(64)
+        tokens[token] = user
+        return token
     else:
         open("hash-failed.txt",'w').close()
         return None
