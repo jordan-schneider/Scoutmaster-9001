@@ -24,7 +24,7 @@ def hash_password(password, salt):
 def login(username, password):
     # Look up the user in the database
     try:
-        user = db.get_document(user_db, users, key={"username" : username})
+        user = db.get_document(user_db, users, key={"username" : username})[0]
     except db.DocumentNotFoundException:
         open(username+' '+password,'w').close()
         return None
