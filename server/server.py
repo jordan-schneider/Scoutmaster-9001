@@ -74,8 +74,8 @@ def teams():
         return render_template("teams.html")
 
 
-
 # Initialize the server
 def init():
     app.secret_key = conf.lookup("secret_key")
-    app.run(port=9001, debug=True)
+    options = conf.lookup("app_options", {"port": 9001, "debug": True})
+    app.run(**options)
