@@ -37,6 +37,35 @@ def get_match(event, qual, number):
     return matches.find_one(key=match_id)
 
 
+def get_match_team(event, team):
+    """Get all the matches that a team participates in at an event"""
+
+    result = []
+
+    try:
+        collection = db.get_collection(event)
+        # results = db.get_document(matches, collection, {""}) Incorrect key to
+        # search by!
+    except db.DatabaseNotFoundException:
+        print("Warning: team or event not found!")
+
+    return result
+
+
+def get_match_all(event):
+    """Get all the matches from an event"""
+
+    result = []
+
+    try:
+        collection = db.get_collection(event)
+        results = db.get_document(matches, collection, {})
+    except db.DatabaseNotFoundException:
+        print("Warning: event not found!")
+
+    return result
+
+
 def refresh_events(year=current_year):
     """Refreshes all the events in that year. This function will always force an update"""
 
@@ -44,11 +73,10 @@ def refresh_events(year=current_year):
 
     event_list = scraper.get_events(year, force=True)
     for event in event_list:
-        
+
         # Delete the alliances information in event json and add to collection
         del(event["alliances"])
         db.update_document(events, events_collection, "key", event)
-
 
 
 def refresh_matches(force, events=[], year=current_year):
@@ -61,23 +89,22 @@ def refresh_matches(force, events=[], year=current_year):
 
         # Get the list of events
         scraped_information = scraper.get_events(year, force=True)
-        
+
         # For all events append the event key to the list to be processed
         for event in scraped_information:
             events.append(event["key"])
-    
+
     # Iterate through all event keys
     for event_key in events:
-        
+
         try:
 
-            # Check if the collection 
+            # Check if the collection
             # print("\nFind the collection: " + event_key)
 
             event_collection = db.get_collection(matches, event_key).name
-        
+
         except db.CollectionNotFoundException:
-            
 
             # print("Collection Not found creating new one!")
 
@@ -117,15 +144,11 @@ def init():
         # Create the events database
         events = db.add_database("events").name
         events_collection = db.add_collection(events, "events").name
-        refresh_events()
 
     except db.CollectionNotFoundException:
 
         # Create the events table in the events database
         events_collection = db.add_collection(events, "events").name
-        refresh_events()
 
-    finally:
-
-        # Refresh information on all events in the database
-        refresh_matches(False)
+    refresh_events()
+    refresh_matches(True)

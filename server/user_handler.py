@@ -35,6 +35,7 @@ def login(username, password):
     # Verify the user's hash
     if password_hash == user["hash"]:
         # Either return the existing token or create a new one
+        print(tokens)
         for token, usr in tokens:
             if usr == user:
                 return token

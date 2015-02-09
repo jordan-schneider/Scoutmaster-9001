@@ -7,7 +7,7 @@ current_year = conf.lookup("year")
 
 
 def add_team_review(team, event, review):
-
+	
 
 def add_team_picture(team, event, picture):
 
@@ -37,7 +37,12 @@ def init():
 
 	# Set global 
 	try:
-        regional = db.get_table("regionals")
-    except:
+        
+        # Get the regional database
+        regional = db.get_database("regionals")
+
+    except db.DatabaseNotFoundException:
+        
         # Create the user table
-        regional = database.add_table("regionals")
+        regional = database.add_database("regionals")
+

@@ -42,11 +42,11 @@ def scrape(key, url, force):
 		REQUEST_HEADERS["If-Modified-Since"] = current_time.strftime('%a, %d %b %Y %H:%M:%S GMT')
 
 
-	print("Getting request: " + str(key))
+	print("\nGetting request: " + str(key))
 	# print(REQUEST_HEADERS)
 	response = requests.get(url%key, headers=REQUEST_HEADERS)
-	
-	print(response.status_code)
+	# print(REQUEST_HEADERS)
+	# print(response.status_code)
 
 	# If not modified since, then it returns a 304
 	if response.status_code == 304:
