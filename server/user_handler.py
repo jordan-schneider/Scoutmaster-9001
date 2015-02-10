@@ -36,7 +36,7 @@ def login(username, password):
     if password_hash == user["hash"]:
         # Either return the existing token or create a new one
         print(tokens)
-        for token, usr in tokens:
+        for token, usr in tokens.iteritems():
             if usr == user:
                 return token
         token = os.urandom(64)
