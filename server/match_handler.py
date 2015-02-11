@@ -33,7 +33,7 @@ def get_match(event, qual, number):
     match_id += 'm' + str(number)
 
     # Look up and return the match
-    matches = database.get_table(event)
+    matches = database.get_collection(event, events_collection) # This may be incorrect
     return matches.find_one(key=match_id)
 
 
